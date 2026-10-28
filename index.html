@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Computer Mock Test</title>
+<style>
+:root{--primary:#5b5cf0;--primary2:#7c3aed;--bg:#f4f6fb;--card:#fff;--text:#172033;--muted:#718096;--green:#16a34a;--red:#ef4444;--border:#e7eaf1}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#f6f7ff,#eef3ff);color:var(--text)}
+button{font:inherit;cursor:pointer;border:0}.app{min-height:100vh}.topbar{height:72px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:10}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary2));display:grid;place-items:center;color:white;box-shadow:0 8px 20px #5b5cf033}.top-right{display:flex;gap:12px;align-items:center}.pill{background:#f3f4ff;color:var(--primary);padding:9px 14px;border-radius:999px;font-weight:700;font-size:13px}
+.layout{max-width:1250px;margin:26px auto;padding:0 20px;display:grid;grid-template-columns:1fr 310px;gap:22px}.panel{background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:0 12px 35px #1f2a4410}.main{padding:28px}.hero{background:linear-gradient(135deg,#5757ee,#813de9);color:white;border-radius:18px;padding:24px;margin-bottom:22px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:180px;height:180px;border-radius:50%;background:#ffffff12;right:-50px;top:-70px}.hero h1{margin:0 0 8px;font-size:27px}.hero p{margin:0;color:#e8e8ff}.meta{display:flex;gap:18px;margin-top:18px;flex-wrap:wrap}.meta span{background:#ffffff18;padding:8px 11px;border-radius:10px;font-size:13px}
+.question-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.qno{font-weight:800;color:var(--primary)}.mark{font-size:13px;color:var(--muted)}
+.question{font-size:20px;font-weight:750;line-height:1.45;margin:10px 0 22px}.options{display:grid;gap:12px}.option{padding:16px;border:2px solid var(--border);border-radius:14px;background:#fff;text-align:left;display:flex;gap:12px;align-items:center;transition:.18s}.option:hover{border-color:#a9aaf8;background:#fafaff}.option.selected{border-color:var(--primary);background:#f1f1ff}.letter{width:34px;height:34px;border-radius:10px;background:#f1f3f8;display:grid;place-items:center;font-weight:800;color:#596174}.selected .letter{background:var(--primary);color:#fff}
+.actions{display:flex;justify-content:space-between;margin-top:28px;gap:10px}.btn{padding:12px 18px;border-radius:12px;font-weight:800}.secondary{background:#f0f2f7;color:#394257}.primary{background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;box-shadow:0 8px 18px #5b5cf033}.danger{background:#fff0f0;color:#dc2626}
+.sidebar{padding:20px;height:max-content;position:sticky;top:94px}.timer{background:#111827;color:#fff;border-radius:16px;padding:18px;text-align:center;margin-bottom:20px}.timer small{display:block;color:#aeb7c8;margin-bottom:4px}.time{font-size:32px;font-weight:900;letter-spacing:1px}.side-title{font-weight:800;margin:16px 0 12px}.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.qdot{height:38px;border-radius:10px;background:#f0f2f6;color:#556070;font-weight:800}.qdot.current{background:var(--primary);color:#fff}.qdot.answered{background:#dcfce7;color:#15803d}.legend{font-size:12px;color:var(--muted);display:grid;gap:8px;margin-top:16px}.legend div{display:flex;align-items:center;gap:8px}.box{width:13px;height:13px;border-radius:4px;background:#f0f2f6}.box.a{background:#dcfce7}.box.c{background:var(--primary)}
+.modal{position:fixed;inset:0;background:#11182799;display:none;place-items:center;z-index:50;padding:20px}.modal.show{display:grid}.result{max-width:520px;width:100%;background:white;border-radius:24px;padding:30px;text-align:center}.score{font-size:55px;font-weight:950;color:var(--primary);margin:10px}.result-actions{display:flex;justify-content:center;gap:10px;margin-top:20px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}.topbar{padding:0 16px}.main{padding:20px}}
+
+.credit{margin-top:28px;padding:16px 20px;text-align:center;border-top:1px solid var(--border);color:#7a8498;font-size:12px;letter-spacing:.4px}
+.credit span{font-weight:900;background:linear-gradient(90deg,#5b5cf0,#7c3aed,#ec4899);-webkit-background-clip:text;background-clip:text;color:transparent}
+.credit strong{color:#394257}
+
+.login-screen{position:fixed;inset:0;z-index:100;background:radial-gradient(circle at 15% 15%,#34358b 0,transparent 38%),linear-gradient(135deg,#111827,#25205a 60%,#4c1d95);display:grid;place-items:center;padding:20px}
+.login-card{width:min(100%,430px);background:#fff;border:1px solid #ffffff55;border-radius:26px;padding:34px;box-shadow:0 30px 90px #0005;animation:rise .45s ease}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.login-brand{display:flex;align-items:center;gap:12px;margin-bottom:26px}.login-brand .logo{flex:none}
+.login-card h1{font-size:26px;margin:0 0 8px}.login-card .sub{color:#718096;margin:0 0 24px;line-height:1.5}
+.field{margin:16px 0}.field label{display:block;font-size:13px;font-weight:800;color:#394257;margin-bottom:8px}
+.field input{width:100%;padding:14px 15px;border:1.5px solid #e2e8f0;border-radius:12px;font:inherit;outline:none;transition:.2s}
+.field input:focus{border-color:var(--primary);box-shadow:0 0 0 4px #5b5cf01a}
+.login-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;font-weight:800;margin-top:8px;box-shadow:0 10px 20px #5b5cf033}
+.login-error{display:none;background:#fff1f2;color:#be123c;border:1px solid #fecdd3;padding:11px 12px;border-radius:10px;font-size:13px;margin-top:14px}
+.login-hint{font-size:12px;color:#8490a4;text-align:center;margin-top:18px;line-height:1.6}
+.user-chip{display:flex;align-items:center;gap:9px;background:#f5f6ff;border-radius:999px;padding:6px 8px 6px 12px;font-size:13px;font-weight:700}
+.avatar{width:28px;height:28px;background:#e3e4ff;color:var(--primary);border-radius:50%;display:grid;place-items:center}
+.logout{background:#fff0f0;color:#dc2626;border-radius:9px;padding:8px 10px;font-size:12px;font-weight:800}
+button:focus-visible{outline:3px solid #a5b4fc;outline-offset:3px}
+@media(max-width:520px){.login-card{padding:25px}.top-right .pill{display:none}.brand{font-size:16px}}
+
+/* Live completion progress bar */
+.progress-wrap{margin:8px 0 24px;padding:15px 17px;background:#f8f9ff;border:1px solid #e9ebfa;border-radius:15px}
+.progress-label{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;font-size:12px;color:#718096;font-weight:700}
+.progress-label strong{color:#5b5cf0;font-variant-numeric:tabular-nums}
+.progress-track{height:9px;width:100%;background:#e8eaf5;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#5b5cf0,#9b5de5);transition:width .35s ease;box-shadow:0 0 12px #7c3aed44}
+
+
+/* Animated opening screen */
+.splash-screen{
+  position:fixed;
+  inset:0;
+  z-index:200;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  color:#fff;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124,58,237,.55), transparent 32%),
+    radial-gradient(circle at 80% 75%, rgba(91,92,240,.45), transparent 34%),
+    linear-gradient(135deg,#080b18 0%,#17133d 48%,#3b176f 100%);
+  animation:splashExit .9s ease 4.8s forwards;
+}
+.splash-screen::before,
+.splash-screen::after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50%;
+  animation:orbit 8s linear infinite;
+}
+.splash-screen::before{width:520px;height:520px}
+.splash-screen::after{width:760px;height:760px;animation-direction:reverse;animation-duration:12s}
+.splash-particles{
+  position:absolute;
+  inset:0;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.65) 1px,transparent 1.5px);
+  background-size:70px 70px;
+  opacity:.18;
+  animation:drift 14s linear infinite;
+}
+.splash-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:30px;
+  animation:splashIn 1s cubic-bezier(.2,.8,.2,1) both;
+}
+.splash-logo{
+  width:86px;height:86px;
+  margin:0 auto 24px;
+  border-radius:26px;
+  display:grid;place-items:center;
+  font-size:40px;font-weight:900;
+  background:linear-gradient(135deg,#6366f1,#a855f7,#ec4899);
+  box-shadow:0 0 0 10px rgba(255,255,255,.05),0 20px 55px rgba(124,58,237,.5);
+  animation:logoPulse 2s ease-in-out infinite;
+}
+.splash-title{
+  margin:0;
+  font-size:clamp(38px,7vw,76px);
+  line-height:1.05;
+  font-weight:950;
+  letter-spacing:-2px;
+  background:linear-gradient(90deg,#fff,#c4b5fd,#fff);
+  background-size:200% auto;
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  animation:shine 2.6s linear infinite;
+}
+.splash-subtitle{
+  margin:18px 0 0;
+  font-size:clamp(16px,2.3vw,23px);
+  color:#d8d5ff;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  font-weight:700;
+  animation:fadeUp .8s ease .45s both;
+}
+.splash-dev{
+  margin:26px 0 0;
+  font-size:15px;
+  color:#bdb9df;
+  animation:fadeUp .8s ease .8s both;
+}
+.splash-dev strong{
+  color:#fff;
+  font-size:17px;
+}
+.splash-loader{
+  width:190px;
+  height:4px;
+  margin:28px auto 0;
+  border-radius:99px;
+  overflow:hidden;
+  background:rgba(255,255,255,.13);
+  animation:fadeUp .8s ease 1s both;
+}
+.splash-loader span{
+  display:block;
+  width:0;
+  height:100%;
+  border-radius:99px;
+  background:linear-gradient(90deg,#818cf8,#c084fc,#f0abfc);
+  animation:loadBar 4.2s ease forwards;
+}
+@keyframes splashIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes logoPulse{50%{transform:translateY(-6px) scale(1.04);box-shadow:0 0 0 14px rgba(255,255,255,.03),0 25px 65px rgba(168,85,247,.55)}}
+@keyframes shine{to{background-position:200% center}}
+@keyframes loadBar{to{width:100%}}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@keyframes drift{to{background-position:70px 70px}}
+@keyframes splashExit{to{opacity:0;visibility:hidden;pointer-events:none;transform:scale(1.03)}}
+@media(max-width:520px){
+  .splash-title{letter-spacing:-1px}
+  .splash-logo{width:72px;height:72px;font-size:32px}
+}
+
+
+.login-screen.show-login .login-card{
+  animation:loginReveal .7s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes loginReveal{
+  from{opacity:0;transform:translateY(25px) scale(.97)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+</style>
+</head>
+<body>
+<script>
+/* Opening animation -> login screen */
+window.addEventListener("load", () => {
+  const splash = document.getElementById("splashScreen");
+  const login = document.getElementById("loginScreen");
+  setTimeout(() => {
+    splash.style.display = "none";
+    login.classList.add("show-login");
+    const first = document.getElementById("userId");
+    if (first) first.focus();
+  }, 5000);
+});
+</script>
+
+
+<section class="splash-screen" id="splashScreen" aria-label="Online Exam System opening">
+  <div class="splash-particles"></div>
+  <div class="splash-content">
+    <div class="splash-logo">✓</div>
+    <h1 class="splash-title">Online Exam System</h1>
+    <p class="splash-subtitle">Learn • Practice • Achieve</p>
+    <p class="splash-dev">Developed by <strong>Indranil Jana</strong></p>
+    <div class="splash-loader" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<section class="login-screen" id="loginScreen" aria-label="Sign in">
+  <form class="login-card" id="loginForm">
+    <div class="login-brand"><div class="logo">⌘</div><div><strong>Computer Mock Test</strong><div style="font-size:12px;color:#8490a4;margin-top:3px">Secure student portal</div></div></div>
+    <h1>Welcome</h1><p class="sub">Sign in with your assigned account to continue to the examination.</p>
+    <div class="field"><label for="userId">USER ID</label><input id="userId" name="userId" autocomplete="username" placeholder="Enter your user ID" required></div>
+    <div class="field"><label for="userPassword">PASSWORD</label><input id="userPassword" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></div>
+    <button class="login-btn" type="submit">Sign in securely&nbsp; →</button>
+    <div class="login-error" id="loginError" role="alert">The user ID or password is incorrect. Please try again.</div>
+    <div class="login-hint">Test YourSelf<br></div>
+  </form>
+</section>
+<div class="app" id="app" style="display:none">
+<header class="topbar">
+  <div class="brand"><div class="logo">⌘</div> Computer Mock Test</div>
+  <div class="top-right"><span class="pill">Practice Mode</span><span id="progress">1 / 15</span><div class="user-chip"><span class="avatar" id="userAvatar">S</span><span id="signedInAs">Student</span></div><button class="logout" id="logoutBtn" type="button">Log out</button></div>
+</header>
+<div class="layout">
+<main class="panel main">
+  <section class="hero">
+    <h1>Computer Fundamentals Mock Test</h1>
+    <p>Test your knowledge of computer basics, hardware, software, internet and MS Office.</p>
+    <div class="meta"><span>📝 45 Questions</span><span>⏱ 40 Minutes</span><span>🎯 1 Mark Each</span></div>
+  </section>
+  <div class="progress-wrap" aria-label="Test completion progress">
+    <div class="progress-label"><span>Test progress</span><strong id="progressLabel">0% completed</strong></div>
+    <div class="progress-track" role="progressbar" aria-label="Questions answered" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+  <div class="question-head"><div class="qno" id="qno">QUESTION 01</div><div class="mark">1 Mark</div></div>
+  <div class="question" id="question"></div>
+  <div class="options" id="options"></div>
+  <div class="actions"><button class="btn secondary" id="prev">← Previous</button><button class="btn primary" id="next">Next →</button></div>
+</main>
+<aside class="panel sidebar">
+  <div class="timer"><small>TIME REMAINING</small><div class="time" id="timer">40:00</div></div>
+  <div class="side-title">Question Navigator</div>
+  <div class="grid" id="navigator"></div>
+  <div class="legend">
+    <div><span class="box a"></span> Answered</div><div><span class="box c"></span> Current</div><div><span class="box"></span> Not visited / unanswered</div>
+  </div>
+  <button class="btn danger" style="width:100%;margin-top:20px" id="submit">Submit Test</button>
+</aside>
+</div>
+<div class="credit">✦ <strong>Designed &amp; Devloped by</strong> <span>Indranil Jana</span> ✦</div>
+</div>
+<div class="modal" id="modal">
+ <div class="result">
+   <div style="font-size:42px">🏆</div><h2>Test Completed!</h2>
+   <div class="score" id="score">0/45</div><p id="summary"></p>
+   <div class="result-actions"><button class="btn secondary" onclick="location.reload()">Try Again</button><button class="btn primary" id="review">Review Answers</button></div>
+ </div>
+</div>
+<script>
+// Demo-only client-side credentials. For real exams, validate credentials on a secure server.
+const PREDEFINED_USERS = [{ userId: "student01", password: "Indra@123", displayName: "Student" }];
+const loginScreen = document.getElementById("loginScreen");
+const app = document.getElementById("app");
+const loginForm = document.getElementById("loginForm");
+loginForm.addEventListener("submit", function(event) {
+  event.preventDefault();
+  const userId = document.getElementById("userId").value.trim();
+  const password = document.getElementById("userPassword").value;
+  const user = PREDEFINED_USERS.find(u => u.userId === userId && u.password === password);
+  if (!user) {
+    document.getElementById("loginError").style.display = "block";
+    document.getElementById("userPassword").setAttribute("aria-invalid", "true");
+    return;
+  }
+  document.getElementById("loginError").style.display = "none";
+  document.getElementById("signedInAs").textContent = user.displayName;
+  document.getElementById("userAvatar").textContent = user.displayName.charAt(0).toUpperCase();
+  loginScreen.style.display = "none";
+  app.style.display = "block";
+  render();
+});
+document.getElementById("logoutBtn").addEventListener("click", function() {
+  if (!submitted && !confirm("Log out now? Your current test progress will be lost.")) return;
+  clearInterval(clock);
+  app.style.display = "none";
+  loginScreen.style.display = "grid";
+  loginForm.reset();
+  document.getElementById("loginError").style.display = "none";
+  current = 0; answers = Array(questions.length).fill(null); remaining = 2400; submitted = false;
+  $("timer").textContent = "40:00";
+  clock = setInterval(tick, 1000);
+});
+const questions=[
+["Which device is known as the brain of the computer?",["Monitor","CPU","Keyboard","Printer"],1],
+["Which of the following is an input device?",["Monitor","Speaker","Keyboard","Projector"],2],
+["What does RAM stand for?",["Read Access Memory","Random Access Memory","Run Access Memory","Rapid Access Module"],1],
+["Which is an example of system software?",["MS Word","Windows","PowerPoint","Chrome"],1],
+["What is the full form of URL?",["Uniform Resource Locator","Universal Record Link","User Resource Line","Uniform Read Locator"],0],
+["Which key is commonly used to refresh a web page?",["F1","F2","F5","F12"],2],
+["Which application is mainly used for spreadsheets?",["MS Excel","MS Paint","Notepad","VLC"],0],
+["1 byte is equal to how many bits?",["4","8","16","32"],1],
+["Which of these is an operating system?",["Google","Linux","HTML","USB"],1],
+["What is phishing?",["A type of printer","A cyber fraud technique","A storage device","A programming language"],1],
+["Which storage is non-volatile?",["RAM","Cache","ROM","Register"],2],
+["What does Ctrl + C normally do?",["Cut","Copy","Close","Create"],1],
+["Which protocol is commonly used for secure websites?",["HTTP","FTP","HTTPS","SMTP"],2],
+["Which one is a web browser?",["Chrome","Windows","Android","Linux"],0],
+["What is the main purpose of an antivirus program?",["Create documents","Protect against malware","Increase monitor size","Print files"],1],
+["What is the full form of CPU?",["Central Processing Unit","Computer Processing Utility","Central Program Unit","Control Processing Unit"],0],
+["Which memory is directly accessible by the CPU?",["RAM","DVD","Pen Drive","Hard Disk"],0],
+["Which device is used to produce a hard copy?",["Scanner","Printer","Monitor","Keyboard"],1],
+["Which of the following is an output device?",["Mouse","Keyboard","Monitor","Scanner"],2],
+["What is the full form of ROM?",["Read Only Memory","Random Only Memory","Read Open Memory","Run Only Module"],0],
+["Which unit is commonly used to measure processor speed?",["Kilogram","Gigahertz","Liter","Pixel"],1],
+["Which of the following is a pointing device?",["Mouse","Printer","Speaker","Monitor"],0],
+["Which key is used to delete the character to the left of the cursor?",["Delete","Backspace","Insert","End"],1],
+["What does Ctrl + V normally do?",["Copy","Paste","Cut","Undo"],1],
+["What does Ctrl + Z normally do?",["Undo","Redo","Save","Print"],0],
+["Which file extension is commonly associated with a Microsoft Word document?",[".xlsx",".pptx",".docx",".jpg"],2],
+["Which file extension is commonly associated with an Excel workbook?",[".docx",".xlsx",".mp3",".txt"],1],
+["Which file extension is commonly associated with a PowerPoint presentation?",[".pptx",".xlsx",".exe",".html"],0],
+["What is the main function of an operating system?",["Manage computer hardware and software","Create only images","Browse only websites","Print only documents"],0],
+["Which of the following is application software?",["Windows","Linux","MS Word","BIOS"],2],
+["What is malware?",["Malicious software","A computer monitor","A type of keyboard","A storage cable"],0],
+["Which device is commonly used for long-term data storage?",["RAM","Hard Disk","Cache","Register"],1],
+["What is the full form of USB?",["Universal Serial Bus","United System Board","Universal Storage Box","User Service Bus"],0],
+["Which technology is used for wireless local networking?",["Wi-Fi","VGA","HDMI","USB"],0],
+["Which of the following is a search engine?",["Google","Windows","Excel","Bluetooth"],0],
+["What does WWW stand for?",["World Wide Web","World Web Window","Wide World Wire","Web World Work"],0],
+["Which protocol is commonly used to send email?",["SMTP","HTTP","FTP","HTML"],0],
+["Which protocol is commonly used to transfer files?",["FTP","SMTP","HTTPS","POP3"],0],
+["What is cloud computing?",["Using internet-based computing resources","Cleaning computer hardware","Printing through a cable","Formatting a keyboard"],0],
+["Which unit is larger?",["Kilobyte","Byte","Bit","Megabyte"],3],
+["What is a computer virus?",["A malicious program that can spread or cause harm","A hardware component","A type of monitor","A web browser"],0],
+["Which shortcut is commonly used to save a file?",["Ctrl + S","Ctrl + P","Ctrl + F","Ctrl + A"],0],
+["Which shortcut is commonly used to select all text or items?",["Ctrl + A","Ctrl + X","Ctrl + N","Ctrl + R"],0],
+["What is a firewall mainly used for?",["Controlling and filtering network traffic","Increasing screen brightness","Editing photographs","Creating spreadsheets"],0],
+["Which of the following is an example of secondary storage?",["SSD","RAM","CPU register","Cache memory"],0]
+];
+let current=0, answers=Array(questions.length).fill(null), remaining=2400, submitted=false;
+const $=id=>document.getElementById(id);
+function render(){
+ const q=questions[current]; $("qno").textContent=`QUESTION ${String(current+1).padStart(2,"0")}`;
+ $("progress").textContent=`${current+1} / ${questions.length}`; $("question").textContent=q[0];
+ updateProgress();
+ $("options").innerHTML=q[1].map((o,i)=>`<button class="option ${answers[current]===i?"selected":""}" onclick="selectAnswer(${i})"><span class="letter">${String.fromCharCode(65+i)}</span><span>${o}</span></button>`).join("");
+ $("prev").disabled=current===0; $("prev").style.opacity=current===0?.5:1;
+ $("next").textContent=current===questions.length-1?"Finish":"Next →"; renderNav();
+}
+function updateProgress(){
+ const answered=answers.filter(a=>a!==null).length;
+ const percent=Math.round(answered/questions.length*100);
+ $("progressFill").style.width=percent+"%";
+ $("progressLabel").textContent=`${percent}% completed · ${answered}/${questions.length} answered`;
+ $("progressFill").parentElement.setAttribute("aria-valuenow",String(percent));
+}
+function selectAnswer(i){answers[current]=i;render();}
+function renderNav(){$("navigator").innerHTML=questions.map((_,i)=>`<button class="qdot ${i===current?"current":""} ${answers[i]!==null?"answered":""}" onclick="current=${i};render()">${i+1}</button>`).join("")}
+$("prev").onclick=()=>{if(current>0){current--;render()}};
+$("next").onclick=()=>{if(current<questions.length-1){current++;render()}else submitTest()};
+$("submit").onclick=submitTest;
+function submitTest(){
+ if(submitted)return; submitted=true; clearInterval(clock);
+ let score=answers.reduce((s,a,i)=>s+(a===questions[i][2]?1:0),0);
+ $("score").textContent=`${score}/${questions.length}`;
+ $("summary").textContent=`You answered ${answers.filter(x=>x!==null).length} of ${questions.length} questions. Your percentage is ${Math.round(score/questions.length*100)}%.`;
+ $("modal").classList.add("show");
+}
+$("review").onclick=()=>{$("modal").classList.remove("show");submitted=false;current=0;render()};
+function tick(){if(app.style.display==="none" || submitted)return;remaining--;if(remaining<=0){remaining=0;submitTest()}let m=Math.floor(remaining/60),s=remaining%60;$("timer").textContent=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`}
+let clock=setInterval(tick,1000);
+</script>
+</body>
+</html>
